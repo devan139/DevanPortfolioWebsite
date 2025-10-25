@@ -1,4 +1,94 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devanarayanan | Creative Developer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f8f9fb;
+      font-family: 'Poppins', sans-serif; /* Reverted to Poppins with fallbacks */
+      overflow-x: hidden;
+    }
+    .parallax-img {
+      transition: transform 0.2s ease-out;
+      will-change: transform;
+    }
+  </style>
+</head>
+
+<body class="text-gray-800">
+
+  <section id="hero" class="h-screen flex flex-col items-center justify-center relative overflow-hidden px-4">
+    <div class="w-full sm:w-4/5 md:w-2/3 lg:w-1/2 relative">
+      <img id="mainImage" src="./assets/Image1.jpg" alt="Creative Workspace" class="rounded-3xl shadow-xl parallax-img w-full" style="opacity: 0; transform: scale(0.9);" />
+    </div>
+    <div class="text-center mt-10" id="heroText" style="opacity: 0;">
+      <h1 class="text-4xl md:text-5xl font-bold mb-3">Devanarayanan</h1>
+      <p class="text-lg text-gray-600">VR Developer & AI Explorer</p>
+    </div>
+  </section>
+
+  <section id="about" class="min-h-screen flex items-center justify-center bg-white py-20 lg:py-0">
+    <div class="container mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24">
+      
+      <div class="lg:w-1/2 text-center lg:text-left" id="aboutText" style="opacity: 0;">
+        <h2 class="text-3xl font-semibold mb-4">About Me</h2>
+        <p class="text-gray-600 leading-relaxed">
+          I'm a creative technologist exploring the intersection of virtual reality and artificial intelligence.
+          My passion lies in crafting digital experiences that feel natural, immersive, and human.
+        </p>
+      </div>
+      
+      <div class="lg:w-1/2 flex justify-center" id="interactiveObjectContainer" style="opacity: 0;">
+        <img id="interactiveObject" 
+             src="https://placehold.co/400x400/ffffff/333333?text=REPLACE+ME" 
+             alt="Interactive Object" 
+             class="w-64 h-64 lg:w-80 lg:h-80 object-contain" />
+      </div>
+      </div>
+  </section>
+
+  <section id="projects" class="min-h-screen flex flex-col justify-center items-center bg-gray-50 py-20">
+    <div class="max-w-4xl text-center px-6 lg:px-0" id="projectsText" style="opacity: 0;">
+      <h2 class="text-3xl font-semibold mb-6">Projects</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:scale-105 transition-all duration-300">
+          <h3 class="font-semibold text-xl mb-2">AI VR Simulation</h3>
+          <p class="text-gray-600">An immersive AI-driven VR exploration experience.</p>
+        </div>
+        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:scale-105 transition-all duration-300">
+          <h3 class="font-semibold text-xl mb-2">Virtual Showroom</h3>
+          <p class="text-gray-600">A 3D interactive space for showcasing digital products.</p>
+        </div>
+        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:scale-105 transition-all duration-300">
+          <h3 class="font-semibold text-xl mb-2">AI Chat Companion</h3>
+          <p class="text-gray-600">A responsive AI that interacts in immersive VR settings.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="min-h-screen flex flex-col justify-center items-center bg-white py-20">
+    <div class="max-w-lg text-center px-6 lg:px-0" id="contactText" style="opacity: 0;">
+      <h2 class="text-3xl font-semibold mb-4">Let’s Connect</h2>
+      <p class="text-gray-600 mb-6">
+        Whether it’s collaborating on AI-driven VR experiences or creative tech projects,
+        feel free to reach out and connect.
+      </p>
+      <div class="flex gap-6 justify-center">
+        <a href="https://github.com/Devanarayanan" target="_blank" class="text-gray-700 hover:text-black transition-colors duration-200">GitHub</a>
+        <a href="#" target="_blank" class="text-gray-700 hover:text-black transition-colors duration-200">LinkedIn</a>
+        <a href="mailto:yourmail@example.com" class="text-gray-700 hover:text-black transition-colors duration-200">Email</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
     gsap.registerPlugin(ScrollTrigger);
 
     // Hero Image entrance
@@ -11,7 +101,7 @@
 
     gsap.to("#heroText", {
       opacity: 1,
-      y: 0, // Changed from -20 to 0 for a subtle upwards fade
+      y: 0, 
       duration: 1,
       delay: 0.6,
       ease: "power2.out"
@@ -48,21 +138,21 @@
         ease: "power2.out",
         scrollTrigger: {
           trigger: "#interactiveObjectContainer",
-          start: "top 85%", // Same as the text for a coordinated entrance
+          start: "top 85%", 
           toggleActions: "play none none reverse"
         }
     });
 
     // 2. Add scroll-based rotation to the interactive object
     gsap.to("#interactiveObject", {
-      rotation: 180, // REDUCED ROTATION: Now rotates 180 degrees as you scroll through the section
-      ease: "none", // No easing, for a direct link to scroll
+      rotation: 180, // Rotates 180 degrees as you scroll through the section
+      ease: "none", 
       scrollTrigger: {
-        trigger: "#about", // The entire 'about' section
-        start: "top top", // When the top of the section hits the top of the viewport
-        end: "bottom bottom", // When the bottom of the section hits the bottom of the viewport
-        scrub: 1.5, // Smoothly links scroll to animation (1.5 provides a slight lag)
-        // markers: true // Uncomment this to see the start/end triggers
+        trigger: "#about", 
+        start: "top top", 
+        end: "bottom bottom", 
+        scrub: 1.5, 
+        // markers: true 
       }
     });
     
@@ -71,7 +161,6 @@
 
     // Mouse movement parallax effect for hero image
     const image = document.getElementById("mainImage");
-    // Only add this effect if the image exists
     if (image) {
       document.addEventListener("mousemove", (e) => {
         const x = (window.innerWidth / 2 - e.pageX) / 40;
@@ -79,9 +168,10 @@
         image.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(1.02)`;
       });
 
-      // Smooth return to normal when mouse leaves
       document.addEventListener("mouseleave", () => {
         image.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
       });
     }
   </script>
+</body>
+</html>
