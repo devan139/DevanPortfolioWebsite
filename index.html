@@ -10,7 +10,8 @@
   <style>
     body {
       background: #f8f9fb;
-      font-family: 'Poppins', sans-serif;
+      /* Using a common font stack that's clean like Poppins */
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
       overflow-x: hidden;
     }
     .parallax-img {
@@ -22,42 +23,48 @@
 
 <body class="text-gray-800">
 
-  <!-- HERO SECTION -->
-  <section id="hero" class="h-screen flex flex-col items-center justify-center relative overflow-hidden">
-    <div class="w-4/5 md:w-2/3 lg:w-1/2 relative">
-      <img id="mainImage" src="./assets/Image1.jpg" alt="Creative Workspace" class="rounded-3xl shadow-xl parallax-img opacity-0 scale-90" />
+  <section id="hero" class="h-screen flex flex-col items-center justify-center relative overflow-hidden px-4">
+    <div class="w-full sm:w-4/5 md:w-2/3 lg:w-1/2 relative">
+      <img id="mainImage" src="./assets/Image1.jpg" alt="Creative Workspace" class="rounded-3xl shadow-xl parallax-img opacity-0 scale-90 w-full" />
     </div>
     <div class="text-center mt-10 opacity-0" id="heroText">
-      <h1 class="text-5xl font-bold mb-3">Devanarayanan</h1>
+      <h1 class="text-4xl md:text-5xl font-bold mb-3">Devanarayanan</h1>
       <p class="text-lg text-gray-600">VR Developer & AI Explorer</p>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section id="about" class="min-h-screen flex flex-col justify-center items-center bg-white">
-    <div class="max-w-2xl text-center opacity-0" id="aboutText">
-      <h2 class="text-3xl font-semibold mb-4">About Me</h2>
-      <p class="text-gray-600 leading-relaxed">
-        I'm a creative technologist exploring the intersection of virtual reality and artificial intelligence.
-        My passion lies in crafting digital experiences that feel natural, immersive, and human.
-      </p>
-    </div>
+  <section id="about" class="min-h-screen flex items-center justify-center bg-white py-20 lg:py-0">
+    <div class="container mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24">
+      
+      <div class="lg:w-1/2 text-center lg:text-left opacity-0" id="aboutText">
+        <h2 class="text-3xl font-semibold mb-4">About Me</h2>
+        <p class="text-gray-600 leading-relaxed">
+          I'm a creative technologist exploring the intersection of virtual reality and artificial intelligence.
+          My passion lies in crafting digital experiences that feel natural, immersive, and human.
+        </p>
+      </div>
+      
+      <div class="lg:w-1/2 flex justify-center opacity-0" id="interactiveObjectContainer">
+        <img id="interactiveObject" 
+             src="https://placehold.co/400x400/ffffff/333333?text=REPLACE+ME" 
+             alt="Interactive Object" 
+             class="w-64 h-64 lg:w-80 lg:h-80 object-contain" />
+      </div>
+      </div>
   </section>
-
-  <!-- PROJECTS -->
-  <section id="projects" class="min-h-screen flex flex-col justify-center items-center bg-gray-50">
-    <div class="max-w-4xl text-center opacity-0" id="projectsText">
+  <section id="projects" class="min-h-screen flex flex-col justify-center items-center bg-gray-50 py-20">
+    <div class="max-w-4xl text-center opacity-0 px-6 lg:px-0" id="projectsText">
       <h2 class="text-3xl font-semibold mb-6">Projects</h2>
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="p-6 bg-white rounded-xl shadow hover:scale-105 transition-all">
+        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:scale-105 transition-all duration-300">
           <h3 class="font-semibold text-xl mb-2">AI VR Simulation</h3>
           <p class="text-gray-600">An immersive AI-driven VR exploration experience.</p>
         </div>
-        <div class="p-6 bg-white rounded-xl shadow hover:scale-105 transition-all">
+        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:scale-105 transition-all duration-300">
           <h3 class="font-semibold text-xl mb-2">Virtual Showroom</h3>
           <p class="text-gray-600">A 3D interactive space for showcasing digital products.</p>
         </div>
-        <div class="p-6 bg-white rounded-xl shadow hover:scale-105 transition-all">
+        <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:scale-105 transition-all duration-300">
           <h3 class="font-semibold text-xl mb-2">AI Chat Companion</h3>
           <p class="text-gray-600">A responsive AI that interacts in immersive VR settings.</p>
         </div>
@@ -65,18 +72,17 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="min-h-screen flex flex-col justify-center items-center bg-white">
-    <div class="max-w-lg text-center opacity-0" id="contactText">
+  <section id="contact" class="min-h-screen flex flex-col justify-center items-center bg-white py-20">
+    <div class="max-w-lg text-center opacity-0 px-6 lg:px-0" id="contactText">
       <h2 class="text-3xl font-semibold mb-4">Let’s Connect</h2>
       <p class="text-gray-600 mb-6">
         Whether it’s collaborating on AI-driven VR experiences or creative tech projects,
         feel free to reach out and connect.
       </p>
-      <div class="space-x-6">
-        <a href="https://github.com/Devanarayanan" target="_blank" class="text-gray-700 hover:text-black transition">GitHub</a>
-        <a href="#" target="_blank" class="text-gray-700 hover:text-black transition">LinkedIn</a>
-        <a href="mailto:yourmail@example.com" class="text-gray-700 hover:text-black transition">Email</a>
+      <div class="flex gap-6 justify-center">
+        <a href="https://github.com/Devanarayanan" target="_blank" class="text-gray-700 hover:text-black transition-colors duration-200">GitHub</a>
+        <a href="#" target="_blank" class="text-gray-700 hover:text-black transition-colors duration-200">LinkedIn</a>
+        <a href="mailto:yourmail@example.com" class="text-gray-700 hover:text-black transition-colors duration-200">Email</a>
       </div>
     </div>
   </section>
@@ -94,13 +100,13 @@
 
     gsap.to("#heroText", {
       opacity: 1,
-      y: -20,
+      y: 0, // Changed from -20 to 0 for a subtle upwards fade
       duration: 1,
       delay: 0.6,
       ease: "power2.out"
     });
 
-    // Scroll animations for each section
+    // Scroll animations for each section text
     const sections = [
       { id: "#aboutText", y: 50 },
       { id: "#projectsText", y: 50 },
@@ -120,18 +126,53 @@
       });
     });
 
-    // Mouse movement parallax effect for hero image
-    const image = document.getElementById("mainImage");
-    document.addEventListener("mousemove", (e) => {
-      const x = (window.innerWidth / 2 - e.pageX) / 40;
-      const y = (window.innerHeight / 2 - e.pageY) / 40;
-      image.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(1.02)`;
+    // --- NEW ANIMATIONS ---
+
+    // 1. Animate the new interactive object's container (fade in)
+    gsap.fromTo("#interactiveObjectContainer", 
+      { opacity: 0, y: 50 }, 
+      {
+        opacity: 1, y: 0,
+        duration: 1.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#interactiveObjectContainer",
+          start: "top 85%", // Same as the text for a coordinated entrance
+          toggleActions: "play none none reverse"
+        }
     });
 
-    // Smooth return to normal when mouse leaves
-    document.addEventListener("mouseleave", () => {
-      image.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
+    // 2. Add scroll-based rotation to the interactive object
+    gsap.to("#interactiveObject", {
+      rotation: 360, // Rotate a full 360 degrees
+      ease: "none", // No easing, for a direct link to scroll
+      scrollTrigger: {
+        trigger: "#about", // The entire 'about' section
+        start: "top top", // When the top of the section hits the top of the viewport
+        end: "bottom bottom", // When the bottom of the section hits the bottom of the viewport
+        scrub: 1.5, // Smoothly links scroll to animation (1.5 provides a slight lag)
+        // markers: true // Uncomment this to see the start/end triggers
+      }
     });
+    
+    // --- /NEW ANIMATIONS ---
+
+
+    // Mouse movement parallax effect for hero image
+    const image = document.getElementById("mainImage");
+    // Only add this effect if the image exists
+    if (image) {
+      document.addEventListener("mousemove", (e) => {
+        const x = (window.innerWidth / 2 - e.pageX) / 40;
+        const y = (window.innerHeight / 2 - e.pageY) / 40;
+        image.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(1.02)`;
+      });
+
+      // Smooth return to normal when mouse leaves
+      document.addEventListener("mouseleave", () => {
+        image.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
+      });
+    }
   </script>
 </body>
 </html>
