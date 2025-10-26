@@ -11,12 +11,27 @@
   <style>
     body {
       background: #f8f9fb;
-      font-family: 'Poppins', sans-serif; /* Reverted to Poppins with fallbacks */
+      font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
     }
     .parallax-img {
       transition: transform 0.2s ease-out;
       will-change: transform;
+    }
+    /* Ensure images cover their containers for the full-screen effect */
+    .full-cover-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ensures the image covers the entire container */
+      object-position: center;
+    }
+    .relative-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
     }
   </style>
 </head>
@@ -33,7 +48,7 @@
     </div>
   </section>
 
-  <section id="about" class="min-h-screen flex items-center justify-center bg-white py-20 lg:py-0">
+  <section id="about" class="min-h-screen flex items-center justify-center bg-white py-20 lg:py-0 relative z-10">
     <div class="container mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24">
       
       <div class="lg:w-1/2 text-center lg:text-left" id="aboutText" style="opacity: 0;">
@@ -44,16 +59,26 @@
         </p>
       </div>
       
-      <div class="lg:w-1/2 flex justify-center" id="interactiveObjectContainer" style="opacity: 0;">
+      <div class="lg:w-1/2 flex justify-center relative-container" id="interactiveObjectContainer" style="opacity: 0;">
         <img id="interactiveObject" 
-             src="Image1.png" 
-             alt="Interactive Object" 
-             class="w-64 h-64 lg:w-80 lg:h-80 object-contain" />
+             src="./assets/Image1.png" 
+             alt="Interactive Object VR" 
+             class="w-64 h-64 lg:w-80 lg:h-80 object-contain absolute" /> 
       </div>
-      </div>
+    </div>
   </section>
 
-  <section id="projects" class="min-h-screen flex flex-col justify-center items-center bg-gray-50 py-20">
+  <section id="fullScreenImageSection" class="h-screen w-full relative overflow-hidden bg-gray-900 flex items-center justify-center z-0" style="opacity: 0;">
+    <img id="image2" 
+         src="./assets/Image2.png" 
+         alt="Second Full Screen Image" 
+         class="full-cover-img" style="opacity: 0; transform: scale(1.1);" /> 
+    <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center p-4">
+      <p id="image2OverlayText" class="text-white text-4xl md:text-5xl font-bold text-center opacity-0">Exploring New Realities</p>
+    </div>
+  </section>
+
+  <section id="projects" class="min-h-screen flex flex-col justify-center items-center bg-gray-50 py-20 relative z-10">
     <div class="max-w-4xl text-center px-6 lg:px-0" id="projectsText" style="opacity: 0;">
       <h2 class="text-3xl font-semibold mb-6">Projects</h2>
       <div class="grid md:grid-cols-3 gap-6">
@@ -73,7 +98,7 @@
     </div>
   </section>
 
-  <section id="contact" class="min-h-screen flex flex-col justify-center items-center bg-white py-20">
+  <section id="contact" class="min-h-screen flex flex-col justify-center items-center bg-white py-20 relative z-10">
     <div class="max-w-lg text-center px-6 lg:px-0" id="contactText" style="opacity: 0;">
       <h2 class="text-3xl font-semibold mb-4">Let’s Connect</h2>
       <p class="text-gray-600 mb-6">
@@ -91,7 +116,7 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero Image entrance
+    // Initial load animations
     gsap.to("#mainImage", {
       opacity: 1,
       scale: 1,
@@ -107,7 +132,7 @@
       ease: "power2.out"
     });
 
-    // Scroll animations for each section text
+    // Scroll animations for general section text (About, Projects, Contact)
     const sections = [
       { id: "#aboutText", y: 50 },
       { id: "#projectsText", y: 50 },
@@ -127,9 +152,7 @@
       });
     });
 
-    // --- NEW ANIMATIONS ---
-
-    // 1. Animate the new interactive object's container (fade in)
+    // --- INTERACTIVE OBJECT (Image1.png) FADE IN ---
     gsap.fromTo("#interactiveObjectContainer", 
       { opacity: 0, y: 50 }, 
       {
@@ -143,33 +166,42 @@
         }
     });
 
-    // 2. Add scroll-based rotation to the interactive object
-    gsap.to("#interactiveObject", {
-      rotation: 180, // Rotates 180 degrees as you scroll through the section
-      ease: "none", 
+    // --- SCROLL-LINKED TRANSITION (Image1.png to Image2.png) ---
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: "#about", 
-        start: "top top", 
-        end: "bottom bottom", 
-        scrub: 1.5, 
-        // markers: true 
+        trigger: "#about", // The "About" section is the trigger
+        start: "center center", // Start when the middle of #about hits the middle of the viewport
+        end: "+=150%", // How far the user needs to scroll after 'start' for the animation to complete
+        scrub: true, // Link animation to scroll position
+        pin: true, // Pin the #about section during the animation
+        pinSpacing: false, // Prevents extra padding from pin
+        // markers: true // Uncomment to visualize scrolltrigger
       }
     });
-    
-    // --- /NEW ANIMATIONS ---
 
+    tl.to("#aboutText", { opacity: 0, y: -50, duration: 0.5 }, "start") // Fade out about text
+      .to("#interactiveObjectContainer", { opacity: 0, y: -50, duration: 0.5 }, "start") // Fade out image1 container
+      .to("#interactiveObject", {
+        scale: 20, // Enlarge Image1.png significantly
+        rotation: 360, // Continue rotation
+        ease: "power1.in", // Fast start, then ease in
+        duration: 1
+      }, "start") // Enlarge and rotate Image1.png
+      .to("#fullScreenImageSection", { opacity: 1, duration: 0.2 }, "start+=0.5") // Fade in the new section
+      .to("#image2", { opacity: 1, scale: 1, duration: 0.8 }, "start+=0.5") // Fade in and scale Image2.png
+      .to("#image2OverlayText", { opacity: 1, y: 0, duration: 0.5, delay: 0.2 }, "start+=0.8"); // Fade in text over Image2.png
 
-    // Mouse movement parallax effect for hero image
-    const image = document.getElementById("mainImage");
-    if (image) {
+    // --- Mouse movement parallax effect for hero image ---
+    const heroImage = document.getElementById("mainImage");
+    if (heroImage) {
       document.addEventListener("mousemove", (e) => {
         const x = (window.innerWidth / 2 - e.pageX) / 40;
         const y = (window.innerHeight / 2 - e.pageY) / 40;
-        image.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(1.02)`;
+        heroImage.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(1.02)`;
       });
 
       document.addEventListener("mouseleave", () => {
-        image.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
+        heroImage.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
       });
     }
   </script>
