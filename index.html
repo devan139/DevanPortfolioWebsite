@@ -1,537 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Devanarayanan | Creative Developer</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
-      }
-    }
-  </script>
-
-  <style>
-    /* Base Settings */
-    body {
-      background: #0f172a; /* Slate 900 */
-      color: #f8fafc;
-      font-family: 'Inter', sans-serif;
-      overflow: hidden; /* We handle scrolling inside pages */
-      margin: 0;
-    }
-    
-    h1, h2, h3, .nav-link {
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
-    /* 3D Background Layer */
-    #canvas-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none; /* Let clicks pass through */
-    }
-
-    /* Page Container */
-    #app-container {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      height: 100vh;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    /* Custom Cursor */
-    .cursor-dot,
-    .cursor-outline {
-      position: fixed;
-      top: 0;
-      left: 0;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      z-index: 9999;
-      pointer-events: none;
-    }
-    .cursor-dot {
-      width: 8px;
-      height: 8px;
-      background-color: white;
-    }
-    .cursor-outline {
-      width: 40px;
-      height: 40px;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      transition: width 0.2s, height 0.2s, background-color 0.2s;
-    }
-    
-    /* Navigation Active State */
-    .nav-link.active {
-      color: #38bdf8; /* Sky 400 */
-    }
-    .nav-link.active::after {
-      width: 100%;
-    }
-
-    /* Hide Scrollbar */
-    #app-container::-webkit-scrollbar { width: 6px; }
-    #app-container::-webkit-scrollbar-track { background: #0f172a; }
-    #app-container::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-
-    /* Page Sections */
-    .page-section {
-      display: none; /* Hidden by default */
-      min-height: 100vh;
-      padding-top: 80px;
-      opacity: 0;
-    }
-    .page-section.active-page {
-      display: block;
-    }
-  </style>
+  <title>Devanarayanan MP — Creative Developer</title>
+  <meta name="description"
+    content="Portfolio of Devanarayanan MP — VR Developer, Creative Engineer, and Builder of immersive digital experiences." />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="antialiased">
+<body>
 
-  <div class="cursor-dot"></div>
-  <div class="cursor-outline"></div>
-
-  <div id="canvas-container"></div>
-
-  <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center bg-gradient-to-b from-slate-900/90 to-transparent backdrop-blur-sm">
-    <div class="text-2xl font-bold tracking-tighter hover:text-sky-400 transition-colors cursor-pointer" onclick="router('home')">
-      DN.
+  <!-- ======== HEADER ======== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="#home" class="site-logo">devan</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">[ menu ]</button>
+      <nav class="main-nav" id="main-nav">
+        <a href="#home" class="active">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
-    
-    <div class="hidden md:flex gap-8">
-      <button onclick="router('home')" class="nav-link relative text-sm uppercase tracking-widest text-slate-400 hover:text-white transition-colors group">
-        Home
-        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-sky-400 transition-all group-hover:w-full"></span>
-      </button>
-      <button onclick="router('work')" class="nav-link relative text-sm uppercase tracking-widest text-slate-400 hover:text-white transition-colors group">
-        Work
-        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-sky-400 transition-all group-hover:w-full"></span>
-      </button>
-      <button onclick="router('contact')" class="nav-link relative text-sm uppercase tracking-widest text-slate-400 hover:text-white transition-colors group">
-        Contact
-        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-sky-400 transition-all group-hover:w-full"></span>
-      </button>
-    </div>
+  </header>
 
-    <div class="md:hidden text-white cursor-pointer">Menu</div>
-  </nav>
+  <main>
 
-  <main id="app-container">
-    
-    <div id="home" class="page-section active-page">
-      <div class="min-h-screen flex flex-col justify-center items-center px-4 relative">
-        
-        <div class="text-center z-10 max-w-4xl">
-          <p class="text-sky-400 font-mono mb-4 reveal-text">Hello, I am Devanarayanan</p>
-          <h1 class="text-5xl md:text-8xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-500 reveal-text">
-            Architecting <br> Virtual Realities
-          </h1>
-          <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 reveal-text">
-            A creative developer blending Unity, WebGL, and AI to build immersive digital experiences that live on the edge of tomorrow.
-          </p>
-          
-          <div class="flex gap-4 justify-center reveal-text">
-            <button onclick="router('work')" class="px-8 py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-full font-medium transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(14,165,233,0.5)]">
-              View Projects
-            </button>
-            <button onclick="router('contact')" class="px-8 py-3 border border-slate-600 hover:border-white text-slate-300 hover:text-white rounded-full font-medium transition-all hover:bg-white/5">
-              Contact Me
-            </button>
-          </div>
+    <!-- ======== HERO ======== -->
+    <section class="hero" id="home">
+      <div class="container">
+        <p class="hero-intro">I am —</p>
+        <h1>Devanarayanan MP</h1>
+        <p class="hero-description">
+          Creative developer building at the intersection of
+          <strong>Virtual Reality</strong>, <strong>WebGL</strong>, and
+          <strong>Automation</strong>. I make things that feel alive in
+          digital spaces.
+        </p>
+        <div class="hero-links">
+          <a href="#projects">→ see my work</a>
+          <a href="#contact">→ get in touch</a>
         </div>
-
-        <div class="absolute bottom-10 animate-bounce text-slate-500 text-sm">
-          EXPLORE
-        </div>
+        <p class="hero-doodle">
+          // based in trivandrum, kerala · building things since forever
+        </p>
       </div>
-    </div>
+    </section>
 
-    <div id="work" class="page-section">
-      <div class="container mx-auto px-6 py-20">
-        
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-slate-800 pb-8">
-          <div>
-            <h2 class="text-4xl md:text-6xl font-bold mb-4">Selected Work</h2>
-            <p class="text-slate-400">A curation of VR, AR, and Web Experiences.</p>
-          </div>
-          
-          <div class="flex gap-4 mt-6 md:mt-0">
-            <button class="filter-btn text-white border-b border-white pb-1" data-filter="all">All</button>
-            <button class="filter-btn text-slate-500 hover:text-white transition-colors pb-1" data-filter="vr">VR/AR</button>
-            <button class="filter-btn text-slate-500 hover:text-white transition-colors pb-1" data-filter="web">Web & AI</button>
-          </div>
+    <!-- ======== PROJECTS ======== -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">01/</span>
+          <h2 class="section-title">Projects</h2>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="project-grid">
-          
-          <div class="project-card group cursor-pointer" data-category="vr">
-            <div class="relative overflow-hidden rounded-xl aspect-video mb-4 bg-slate-800">
-              <img src="https://images.unsplash.com/photo-1617802690992-15d93263d3a9?q=80&w=1470&auto=format&fit=crop" class="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700" alt="Project 1">
-              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="px-4 py-2 bg-white text-black rounded-full font-bold text-sm">View Case Study</span>
+        <div class="projects-list">
+
+          <!-- Project 1 -->
+          <article class="project-card fade-in">
+            <span class="project-index">01</span>
+            <div class="project-card-header">
+              <div>
+                <h3 class="project-title">VR Molecular Lab</h3>
+                <div class="project-tech">
+                  <span>Unity</span>
+                  <span>XR Toolkit</span>
+                  <span>C#</span>
+                  <span>VR</span>
+                </div>
               </div>
             </div>
-            <h3 class="text-xl font-bold group-hover:text-sky-400 transition-colors">Neon City VR</h3>
-            <p class="text-slate-500 text-sm">Unity • Oculus SDK</p>
-          </div>
-
-          <div class="project-card group cursor-pointer" data-category="web">
-            <div class="relative overflow-hidden rounded-xl aspect-video mb-4 bg-slate-800">
-              <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1470&auto=format&fit=crop" class="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700" alt="Project 2">
-              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="px-4 py-2 bg-white text-black rounded-full font-bold text-sm">View Case Study</span>
-              </div>
-            </div>
-            <h3 class="text-xl font-bold group-hover:text-sky-400 transition-colors">AI Interior Designer</h3>
-            <p class="text-slate-500 text-sm">React • Three.js • OpenAI</p>
-          </div>
-
-          <div class="project-card group cursor-pointer" data-category="vr">
-            <div class="relative overflow-hidden rounded-xl aspect-video mb-4 bg-slate-800">
-              <img src="https://images.unsplash.com/photo-1592478411213-61535fdd861d?q=80&w=1470&auto=format&fit=crop" class="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700" alt="Project 3">
-              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="px-4 py-2 bg-white text-black rounded-full font-bold text-sm">View Case Study</span>
-              </div>
-            </div>
-            <h3 class="text-xl font-bold group-hover:text-sky-400 transition-colors">Medical Training Sim</h3>
-            <p class="text-slate-500 text-sm">Unity • HTC Vive</p>
-          </div>
-          
-           <div class="project-card group cursor-pointer" data-category="web">
-            <div class="relative overflow-hidden rounded-xl aspect-video mb-4 bg-slate-800">
-              <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1470&auto=format&fit=crop" class="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700" alt="Project 4">
-              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="px-4 py-2 bg-white text-black rounded-full font-bold text-sm">View Case Study</span>
-              </div>
-            </div>
-            <h3 class="text-xl font-bold group-hover:text-sky-400 transition-colors">WebGL Portfolio v1</h3>
-            <p class="text-slate-500 text-sm">JavaScript • WebGL</p>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div id="contact" class="page-section">
-      <div class="min-h-screen flex items-center justify-center px-6">
-        <div class="w-full max-w-4xl grid md:grid-cols-2 gap-12 items-center">
-          
-          <div>
-            <h2 class="text-5xl font-bold mb-6">Let's build the <br><span class="text-emerald-400">impossible.</span></h2>
-            <p class="text-slate-400 mb-8 leading-relaxed">
-              I am currently available for freelance projects and open to full-time opportunities in VR Development and Creative Engineering.
+            <p class="project-description">
+              An interactive VR Molecular Chemistry Lab. Users grab atoms and
+              combine them to form valid molecules through intuitive VR interactions.
+              Built with XR constraints in mind, enabling incremental molecule
+              construction — building complex molecules step by step.
             </p>
-            
-            <div class="space-y-4">
-              <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-emerald-400">✉️</div>
-                <span>devanarayanan@example.com</span>
-              </div>
-              <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-emerald-400">📍</div>
-                <span>Trivandrum, Kerala, India</span>
-              </div>
+            <div class="project-links">
+              <a href="https://github.com/devan139/VR-Molecular-Lab" target="_blank" rel="noopener">github ↗</a>
             </div>
+          </article>
 
-            <div class="flex gap-4 mt-8">
-              <a href="#" class="text-slate-400 hover:text-white transition-colors">GitHub</a>
-              <a href="#" class="text-slate-400 hover:text-white transition-colors">LinkedIn</a>
-              <a href="#" class="text-slate-400 hover:text-white transition-colors">Twitter</a>
+          <!-- Project 2 -->
+          <article class="project-card fade-in">
+            <span class="project-index">02</span>
+            <div class="project-card-header">
+              <div>
+                <h3 class="project-title">Car Craft WebGL</h3>
+                <div class="project-tech">
+                  <span>Unity</span>
+                  <span>WebGL</span>
+                  <span>3D</span>
+                </div>
+              </div>
             </div>
-          </div>
+            <p class="project-description">
+              A working WebGL simulation for a car — explore and learn about
+              its parts interactively right in the browser. Disassemble, inspect,
+              and understand automotive engineering in 3D.
+            </p>
+            <div class="project-links">
+              <a href="https://devan139.github.io/CarCraftWebgl/" target="_blank" rel="noopener">live demo ↗</a>
+              <a href="https://github.com/devan139/CarCraftWebgl" target="_blank" rel="noopener">github ↗</a>
+            </div>
+          </article>
 
-          <form class="bg-slate-800/50 backdrop-blur-md p-8 rounded-2xl border border-slate-700">
-            <div class="space-y-6">
+          <!-- Project 3 -->
+          <article class="project-card fade-in">
+            <span class="project-index">03</span>
+            <div class="project-card-header">
               <div>
-                <label class="block text-sm text-slate-400 mb-2">Name</label>
-                <input type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-400 transition-colors" placeholder="John Doe">
+                <h3 class="project-title">Attendance Tracker</h3>
+                <div class="project-tech">
+                  <span>Python</span>
+                  <span>Pandas</span>
+                  <span>pdfplumber</span>
+                </div>
               </div>
-              <div>
-                <label class="block text-sm text-slate-400 mb-2">Email</label>
-                <input type="email" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-400 transition-colors" placeholder="john@example.com">
-              </div>
-              <div>
-                <label class="block text-sm text-slate-400 mb-2">Message</label>
-                <textarea rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-400 transition-colors" placeholder="Tell me about your project..."></textarea>
-              </div>
-              <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition-all hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]">
-                Send Message
-              </button>
             </div>
-          </form>
+            <p class="project-description">
+              Turns a 30-minute attendance chore into 10 seconds of magic.
+              The script dives into PDFs, finds names and IDs, pulls exact timings,
+              crunches the numbers, and outputs a perfect Excel sheet.
+              No AI, no data leaks — scalable for any company on a local server.
+            </p>
+            <div class="project-links">
+              <a href="https://github.com/devan139/AttendanceTracker" target="_blank" rel="noopener">github ↗</a>
+            </div>
+          </article>
+
+          <!-- Project 4 -->
+          <article class="project-card fade-in">
+            <span class="project-index">04</span>
+            <div class="project-card-header">
+              <div>
+                <h3 class="project-title">Sugar Cut — Progress Tracker</h3>
+                <div class="project-tech">
+                  <span>Flutter</span>
+                  <span>Dart</span>
+                  <span>Mobile</span>
+                </div>
+              </div>
+            </div>
+            <p class="project-description">
+              A Flutter app for tracking fitness and body transformation visually.
+              Capture consistent daily photos, compare progress over time, and view
+              transformation timelines. Solves the problem of relying on memory —
+              creates a structured visual history of change.
+            </p>
+            <div class="project-links">
+              <a href="https://github.com/devan139/sugar_cut" target="_blank" rel="noopener">github ↗</a>
+            </div>
+          </article>
+
+          <!-- Project 5 -->
+          <article class="project-card fade-in">
+            <span class="project-index">05</span>
+            <div class="project-card-header">
+              <div>
+                <h3 class="project-title">Iyra — Telegram Deal Bot</h3>
+                <div class="project-tech">
+                  <span>Python</span>
+                  <span>Telegram API</span>
+                  <span>Automation</span>
+                </div>
+              </div>
+            </div>
+            <p class="project-description">
+              An automation platform for affiliate deal publishing. Processes
+              e-commerce product links, generates affiliate URLs, formats deal posts,
+              and publishes directly to Telegram channels. Built for scalability —
+              ready for product APIs, AI categorization, and multi-platform publishing.
+            </p>
+            <div class="project-links">
+              <a href="https://github.com/devan139/Iyra-Bot" target="_blank" rel="noopener">github ↗</a>
+            </div>
+          </article>
 
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- ======== ABOUT ======== -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">02/</span>
+          <h2 class="section-title">About</h2>
+        </div>
+
+        <div class="about-content fade-in">
+          <div class="about-text">
+            <p>
+              I'm Devanarayanan — a creative developer from Trivandrum, Kerala.
+              I build immersive experiences in VR/AR using Unity, interactive 3D
+              for the web with WebGL, and automation tools that make life easier.
+            </p>
+            <p>
+              I believe in shipping things that work, learning by building,
+              and solving real problems with code. Whether it's a molecular
+              chemistry lab in VR or a Python script that saves 30 minutes a day,
+              I'm always building something.
+            </p>
+
+            <ul class="skills-list">
+              <li>Unity</li>
+              <li>C#</li>
+              <li>XR / VR / AR</li>
+              <li>WebGL</li>
+              <li>Python</li>
+              <li>Flutter</li>
+              <li>JavaScript</li>
+              <li>Three.js</li>
+              <li>Git</li>
+              <li>Automation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== CONTACT ======== -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">03/</span>
+          <h2 class="section-title">Contact</h2>
+        </div>
+
+        <div class="contact-content fade-in">
+          <p>
+            I'm currently available for freelance work and open to full-time
+            opportunities in VR/AR development and creative engineering.
+            Let's talk.
+          </p>
+
+          <ul class="contact-list">
+            <li>
+              <span class="label">email</span>
+              <a href="mailto:devanarayananmp1@gmail.com">devanarayananmp1@gmail.com</a>
+            </li>
+            <li>
+              <span class="label">github</span>
+              <a href="https://github.com/devan139" target="_blank" rel="noopener">github.com/devan139</a>
+            </li>
+            <li>
+              <span class="label">linkedin</span>
+              <a href="https://www.linkedin.com/in/devanarayanan-mp-7a821a2a4/" target="_blank"
+                rel="noopener">devanarayanan-mp</a>
+            </li>
+            <li>
+              <span class="label">location</span>
+              <span>Trivandrum, Kerala, India</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
   </main>
 
-  <script type="module">
-    import * as THREE from 'three';
+  <!-- ======== FOOTER ======== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-left">
+          © 2026 Devanarayanan MP — Built by hand
+        </div>
+        <div class="footer-right">
+          <a href="https://github.com/devan139" target="_blank" rel="noopener">Github</a>
+          <a href="https://www.linkedin.com/in/devanarayanan-mp-7a821a2a4/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:devanarayananmp1@gmail.com">Email</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-    // --- 1. ROUTING LOGIC ---
-    // Stores the current color target for the particles
-    let targetColor = new THREE.Color(0x38bdf8); // Start with Sky Blue (Home)
-    let particleSpeed = 0.2;
+  <script src="script.js"></script>
 
-    window.router = (pageId) => {
-      // 1. Update Navigation Classes
-      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-      // Find the button that calls this router and add active (simplified)
-      // Note: In a real app, match by href/id.
-      
-      // 2. Hide current page with fade out
-      const current = document.querySelector('.page-section.active-page');
-      if(current && current.id === pageId) return; // Don't reload same page
-
-      if(current) {
-        gsap.to(current, {
-          opacity: 0,
-          y: -20,
-          duration: 0.5,
-          onComplete: () => {
-            current.classList.remove('active-page');
-            showNewPage(pageId);
-          }
-        });
-      } else {
-        showNewPage(pageId);
-      }
-    };
-
-    function showNewPage(pageId) {
-      const nextPage = document.getElementById(pageId);
-      nextPage.classList.add('active-page');
-      
-      // Scroll to top
-      document.getElementById('app-container').scrollTop = 0;
-
-      // Animation In
-      gsap.fromTo(nextPage, 
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
-      );
-
-      // Trigger sub-animations
-      if(pageId === 'work') animateWorkItems();
-
-      // --- 3D SCENE STATE MANAGEMENT ---
-      if(pageId === 'home') {
-        changeParticleState(0x38bdf8, 0.2); // Blue, Slow
-      } else if (pageId === 'work') {
-        changeParticleState(0xc084fc, 0.6); // Purple, Faster
-      } else if (pageId === 'contact') {
-        changeParticleState(0x34d399, 0.3); // Emerald, Medium
-      }
-    }
-
-    function animateWorkItems() {
-      gsap.from(".project-card", {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power3.out"
-      });
-    }
-
-    // Initial Load Animation
-    gsap.from(".reveal-text", {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.2,
-      ease: "power3.out",
-      delay: 0.2
-    });
-
-    // --- 2. THREE.JS BACKGROUND ---
-    const canvasContainer = document.getElementById('canvas-container');
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0f172a, 0.002); // Match bg color
-
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 100;
-
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    canvasContainer.appendChild(renderer.domElement);
-
-    // Particles
-    const count = 4000;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(count * 3);
-    const velocities = []; // Store per-particle velocity
-    
-    // Initialize random positions
-    for(let i=0; i<count*3; i+=3) {
-      positions[i] = (Math.random() - 0.5) * 800;
-      positions[i+1] = (Math.random() - 0.5) * 800;
-      positions[i+2] = (Math.random() - 0.5) * 800;
-      
-      velocities.push({
-        x: (Math.random() - 0.5),
-        y: (Math.random() - 0.5),
-        z: (Math.random() - 0.5)
-      });
-    }
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    const material = new THREE.PointsMaterial({
-      color: 0x38bdf8, // Initial Color
-      size: 2,
-      transparent: true,
-      opacity: 0.8,
-      sizeAttenuation: true
-    });
-
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
-
-    // Mouse Interaction
-    const mouse = new THREE.Vector2();
-    let mouseX = 0;
-    let mouseY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    // Function to change state smoothly
-    function changeParticleState(hexColor, speed) {
-      // Tween the color
-      const newColor = new THREE.Color(hexColor);
-      gsap.to(material.color, {
-        r: newColor.r,
-        g: newColor.g,
-        b: newColor.b,
-        duration: 1.5
-      });
-      // Tween the speed variable
-      gsap.to(window, {
-        particleSpeed: speed, // We'll access this globally or via closure scope if readjusted
-        duration: 1.5
-      });
-      particleSpeed = speed; // Direct set for this simple scope
-    }
-
-    // Animation Loop
-    const clock = new THREE.Clock();
-    
-    function animate() {
-      requestAnimationFrame(animate);
-      const time = clock.getElapsedTime();
-
-      // Rotate whole system slowly
-      particles.rotation.y = time * 0.05;
-      particles.rotation.x = mouse.y * 0.1;
-
-      // Wave/Movement effect
-      const positions = particles.geometry.attributes.position.array;
-      
-      // Simple organic movement
-      // Note: Updating 4000 particles in JS loop is okay for desktop, 
-      // for mobile we might want fewer particles.
-      // We perform a simple wave here to save CPU compared to individual velocity updates
-      
-      particles.position.x += Math.sin(time * 0.5) * particleSpeed;
-
-      renderer.render(scene, camera);
-    }
-
-    animate();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-
-    // --- 3. CUSTOM CURSOR LOGIC ---
-    const dot = document.querySelector('.cursor-dot');
-    const outline = document.querySelector('.cursor-outline');
-
-    window.addEventListener('mousemove', (e) => {
-      const posX = e.clientX;
-      const posY = e.clientY;
-
-      // Dot follows instantly
-      dot.style.left = `${posX}px`;
-      dot.style.top = `${posY}px`;
-
-      // Outline follows with lag
-      outline.animate({
-        left: `${posX}px`,
-        top: `${posY}px`
-      }, { duration: 500, fill: "forwards" });
-    });
-
-    // Hover Effects
-    const interactables = document.querySelectorAll('button, a, .project-card, .nav-link, input, textarea');
-    
-    interactables.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        outline.style.width = '60px';
-        outline.style.height = '60px';
-        outline.style.backgroundColor = 'rgba(255,255,255,0.1)';
-      });
-      el.addEventListener('mouseleave', () => {
-        outline.style.width = '40px';
-        outline.style.height = '40px';
-        outline.style.backgroundColor = 'transparent';
-      });
-    });
-
-    // --- 4. FILTERING LOGIC ---
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Remove active class styling from others
-        filterBtns.forEach(b => {
-          b.classList.remove('text-white', 'border-white');
-          b.classList.add('text-slate-500');
-        });
-        // Add active to current
-        btn.classList.add('text-white', 'border-white');
-        btn.classList.remove('text-slate-500');
-
-        const filterValue = btn.getAttribute('data-filter');
-
-        projectCards.forEach(card => {
-          if(filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-             gsap.to(card, {scale: 1, opacity: 1, display: 'block', duration: 0.3});
-          } else {
-             gsap.to(card, {scale: 0.8, opacity: 0, display: 'none', duration: 0.3});
-          }
-        });
-      });
-    });
-
-  </script>
 </body>
+
 </html>
